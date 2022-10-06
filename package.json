@@ -18,7 +18,11 @@
       "id": "pivot-lang",
       "aliases": ["plang"],
       "extensions": [".pi",".piv"],
-      "configuration": "./language-configuration.json"
+      "configuration": "./language-configuration.json",
+      "icon": {
+        "light": "./logo_white.svg",
+        "dark": "./logo_dark.svg"
+      }
     }],
     "grammars": [{
       "language": "pivot-lang",
