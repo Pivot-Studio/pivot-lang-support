@@ -1,0 +1,50 @@
+{
+	"A for loop": {
+		"prefix": "for",
+		"body": [
+			"for let ${1:i} = 0; ${1:i} < ${2:count}; ${1:i} = ${1:i} + 1 {",
+            "\t$0",
+            "}"
+		],
+		"description": "for loop"
+	},
+    "A function": {
+        "prefix": "fn",
+        "body": [
+            "fn ${1:name}(${2:args}) void {",
+            "\t$0",
+            "\treturn",
+            "}"
+        ],
+        "description": "function"
+    },
+    "A struct": {
+        "prefix": "struct",
+        "body": [
+            "struct ${1:name} {",
+            "\t$0",
+            "}"
+        ],
+        "description": "struct"
+    },
+    "if statement": {
+        "prefix": "if",
+        "body": [
+            "if ${1:condition} {",
+            "\t$0",
+            "}"
+        ],
+        "description": "if statement"
+    },
+    "if else statement": {
+        "prefix": "ifelse",
+        "body": [
+            "if ${1:condition} {",
+            "\t$0",
+            "} else {",
+            "\t",
+            "}"
+        ],
+        "description": "if else statement"
+    }
+}
