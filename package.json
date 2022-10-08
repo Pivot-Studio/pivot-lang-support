@@ -3,6 +3,7 @@
   "displayName": "pivot-lang support",
   "description": "",
   "version": "0.0.1",
+  "publisher": "pivot-langAuthors",
   "engines": {
     "vscode": "^1.71.0"
   },
