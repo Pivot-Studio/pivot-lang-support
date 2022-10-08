@@ -12,7 +12,7 @@
   "activationEvents": [
 		"onLanguage:pivot-lang"
 	],
-  "icon": "https://www.pivotstudio.cn/img/PivotStudio_Logo_Squre_Solid_W-10.0de83b9a.png",
+  "icon": "logo.png",
   "main": "./out/extension",
   "contributes": {
 		"snippets": [
