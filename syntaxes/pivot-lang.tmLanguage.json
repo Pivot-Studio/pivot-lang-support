@@ -3,16 +3,26 @@
 	"name": "pivot-lang",
 	"patterns": [
 		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#strings"
-		},
-		{
 			"include": "#statement"
 		}
 	],
 	"repository": {
+		"statement": {
+			"patterns": [
+				{
+					"include": "#keywords"
+				},
+				{
+					"include": "#strings"
+				},
+				{
+					"includes": "#declarations"
+				},
+				{
+					"include": "#struct-declaration"
+				}
+			]
+		},
 		"keywords": {
 			"patterns": [
 				{
@@ -36,43 +46,25 @@
 				}
 			]
 		},
-		"statement": {
+		"declarations": {
 			"patterns": [
 				{
-					"includes": "#declaration"
-				}
-			]
-		},
-		"declaration": {
-			"patterns": [
-				{
-					"include": "struct-declaration"
+					"include": "#struct-declaration"
 				}
 			]
 		},
 		"struct-declaration": {
 			"name": "meta.struct.pivot-lang",
-			"begin": "(?<![\\.])(?:(\\bstruct\\b\\s*))(?:(\\b[_$a-zA-Z][\\w\\d_$]*\\b\\s*))({)",
+			"begin": "(?<=struct\\s*)(?:(\\b[_$a-zA-Z][\\w\\d_$]*\\b\\s*))(\\{)",
 			"beginCaptures": {
 				"1": {
-					"name": "keyword.control.struct.lang-pivot"
-				},
-				"2": {
 					"name": "variable.other.writable.struct.pivot-lang"
 				},
-				"3": {
+				"2": {
 					"name": "punctuation.definition.block.pivot-lang"
 				}
 			},
-			"end": "(?<=\\{)",
-			"patterns": [
-				{
-					"include": "#keywords"
-				},
-				{
-					"include": "#strings"
-				}
-			]
+			"end": "(?<=\\})"
 		}
 	},
 	"scopeName": "source.pivot-lang"
