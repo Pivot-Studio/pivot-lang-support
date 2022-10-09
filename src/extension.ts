@@ -42,7 +42,7 @@ export function activate(context: ExtensionContext) {
 		},
 		outputChannelName: "pivot-lang language server",
 	};
-
+	
 	// Create the language client and start the client.
 	client = new LanguageClient(
 		'pivot-langlanguageServer',

@@ -11,10 +11,16 @@
 	],
 	"repository": {
 		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.pivot-lang",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
+			"patterns": [
+				{
+					"name": "keyword.control.pivot-lang",
+					"match": "\\b(if|while|for|return|let|else|break|continue|struct|fn)\\b"
+				},
+				{
+					"name": "keyword.other.pivot-lang",
+					"match": "\\b(i8|i16|i32|i64|i128|u8|u16|u32|u64|u128|f32|f64|bool|void)\\b"
+				}
+			]
 		},
 		"strings": {
 			"name": "string.quoted.double.pivot-lang",
