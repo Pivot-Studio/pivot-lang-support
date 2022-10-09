@@ -16,10 +16,12 @@
 					"include": "#strings"
 				},
 				{
-					"includes": "#declarations"
-				},
-				{
-					"include": "#struct-declaration"
+					"includes": "#declarations",
+					"patterns": [
+						{
+							"include": "#struct-declaration"
+						}
+					]
 				}
 			]
 		},
@@ -64,7 +66,15 @@
 					"name": "punctuation.definition.block.pivot-lang"
 				}
 			},
-			"end": "(?<=\\})"
+			"end": "(?<=\\})",
+			"patterns": [
+				{
+					"include": "#keywords"
+				},
+				{
+					"include": "#strings"
+				}
+			]
 		}
 	},
 	"scopeName": "source.pivot-lang"
