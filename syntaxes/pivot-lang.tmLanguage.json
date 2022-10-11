@@ -71,6 +71,27 @@
 				}
 			]
 		},
+		"operators": {
+			"name": "meta.operators.pivot-lang",
+			"patterns": [
+				{
+					"name": "keyword.operator.assignment",
+					"match": "(=)"
+				},
+				{
+					"name": "keyword.operator.comparison",
+					"match": "(==|===)"
+				},
+				{
+					"name": "keyword.operator.relational",
+					"match": "(<|>|<=|>=)"
+				},
+				{
+					"name": "keyword.operator.arithmetic",
+					"match": "[+-*/]"
+				}
+			]
+		},
 		"array": {
 			"begin": "\\[",
 			"beginCaptures": {
@@ -108,7 +129,7 @@
 					"include": "#strings"
 				},
 				{
-					"match": "[a-zA-Z0-9_-$]+\\s?(?=:)",
+					"match": "[a-zA-Z0-9\\$_-]+\\s?(?=:)",
 					"name": "meta.object-literal.key.pivot-lang"
 				}
 			]
@@ -255,13 +276,10 @@
 		},
 		"struct-declaration": {
 			"name": "meta.struct.pivot-lang",
-			"begin": "(?<=struct\\s*)(?:(\\b[_$a-zA-Z][\\w\\d_$]*\\b\\s*))",
+			"begin": "(?<=struct\\s*)(?:(\\b[_\\$a-zA-Z][\\w\\d_]*\\b\\s*))",
 			"beginCaptures": {
 				"1": {
-					"name": "variable.other.writable.struct.pivot-lang"
-				},
-				"2": {
-					"name": "punctuation.definition.block.pivot-lang"
+					"name": "entity.name.type.struct.pivot-lang"
 				}
 			},
 			"end": "(?<=\\})",
@@ -272,7 +290,7 @@
 			]
 		},
 		"function-declaration": {
-			"begin": "(?<=fn\\s*)(?:(\\b[_$a-zA-Z][\\w\\d_$]*\\b\\s*))",
+			"begin": "(?<=fn\\s*)(?:(\\b[_\\$a-zA-Z][\\w\\d_]*\\b\\s*))",
 			"beginCaptures": {
 				"1": {
 					"name": "variable.other.writable.fn.pivot-lang"
@@ -282,9 +300,22 @@
 			"patterns": [
 				{
 					"begin": "\\(",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.parameter.begin.pivot-lang"
+						}
+					},
+					"comment": "function arguments rules",
 					"end": "\\)",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.parameter.end.pivot-lang"
+						}
+					},
+					"name": "meta.structure.dictionary.pivot-lang",
 					"patterns": [
 						{
+							"comment": "the pivot-lang object key",
 							"include": "#key"
 						},
 						{
@@ -303,15 +334,15 @@
 							"name": "meta.structure.dictionary.value.pivot-lang",
 							"patterns": [
 								{
-									"comment": "the pivot-lang object value",
+									"comment": "function parameter type",
 									"include": "#value"
 								},
 								{
-									"include": "#keywords"
+									"name": "entity.name.type.parameter.pivot-lang",
+									"match": "\\b[a-zA-Z0-9_]+\\b"
 								},
 								{
-									"match": "[^\\s,]",
-									"name": "invalid.illegal.expected-dictionary-separator.pivot-lang"
+									"include": "#keywords"
 								}
 							]
 						},
@@ -320,6 +351,11 @@
 							"name": "invalid.illegal.expected-dictionary-separator.pivot-lang"
 						}
 					]
+				},
+				{
+					"comment": "function return type",
+					"name": "entity.name.type.parameter.pivot-lang",
+					"match": "\\b[a-zA-Z0-9_]+\\b"
 				}
 			]
 		}
