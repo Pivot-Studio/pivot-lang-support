@@ -22,15 +22,7 @@
 					"include": "#object"
 				},
 				{
-					"includes": "#declarations",
-					"patterns": [
-						{
-							"include": "#struct-declaration"
-						},
-						{
-							"include": "#function-declaration"
-						}
-					]
+					"include": "#declarations"
 				}
 			]
 		},
@@ -210,67 +202,13 @@
 				}
 			]
 		},
-		"interface-object": {
-			"begin": "\\{",
-			"beginCaptures": {
-				"0": {
-					"name": "punctuation.definition.dictionary.begin.pivot-lang"
-				}
-			},
-			"comment": "a pivot-lang interface-object, with space to change line",
-			"end": "\\}",
-			"endCaptures": {
-				"0": {
-					"name": "punctuation.definition.dictionary.end.pivot-lang"
-				}
-			},
-			"name": "meta.structure.dictionary.pivot-lang",
-			"patterns": [
-				{
-					"include": "#comments"
-				},
-				{
-					"comment": "the pivot-lang object key",
-					"include": "#key"
-				},
-				{
-					"begin": ":",
-					"beginCaptures": {
-						"0": {
-							"name": "punctuation.separator.dictionary.key-value.pivot-lang"
-						}
-					},
-					"end": "([\\n\\r])|(?=\\})",
-					"endCaptures": {
-						"1": {
-							"name": "punctuation.separator.dictionary.pair.pivot-lang"
-						}
-					},
-					"name": "meta.structure.dictionary.value.pivot-lang",
-					"patterns": [
-						{
-							"comment": "the pivot-lang object value",
-							"include": "#value"
-						},
-						{
-							"include": "#keywords"
-						},
-						{
-							"match": "[^\\s,]",
-							"name": "invalid.illegal.expected-dictionary-separator.pivot-lang"
-						}
-					]
-				},
-				{
-					"match": "[^\\s\\}]",
-					"name": "invalid.illegal.expected-dictionary-separator.pivot-lang"
-				}
-			]
-		},
 		"declarations": {
 			"patterns": [
 				{
 					"include": "#struct-declaration"
+				},
+				{
+					"include": "#function-declaration"
 				}
 			]
 		},
@@ -285,7 +223,61 @@
 			"end": "(?<=\\})",
 			"patterns": [
 				{
-					"include": "#interface-object"
+					"begin": "\\{",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.dictionary.begin.pivot-lang"
+						}
+					},
+					"comment": "a pivot-lang interface-object, with space to change line",
+					"end": "\\}",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.dictionary.end.pivot-lang"
+						}
+					},
+					"name": "meta.structure.dictionary.pivot-lang",
+					"patterns": [
+						{
+							"include": "#comments"
+						},
+						{
+							"comment": "the pivot-lang object key",
+							"include": "#key"
+						},
+						{
+							"begin": ":",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.separator.dictionary.key-value.pivot-lang"
+								}
+							},
+							"end": "([\\n\\r])|(?=\\})",
+							"endCaptures": {
+								"1": {
+									"name": "punctuation.separator.dictionary.pair.pivot-lang"
+								}
+							},
+							"name": "meta.structure.dictionary.value.pivot-lang",
+							"patterns": [
+								{
+									"comment": "the pivot-lang object value",
+									"include": "#value"
+								},
+								{
+									"include": "#keywords"
+								},
+								{
+									"match": "[^\\s,]",
+									"name": "invalid.illegal.expected-dictionary-separator.pivot-lang"
+								}
+							]
+						},
+						{
+							"match": "[^\\s\\}]",
+							"name": "invalid.illegal.expected-dictionary-separator.pivot-lang"
+						}
+					]
 				}
 			]
 		},
@@ -356,6 +348,15 @@
 					"comment": "function return type",
 					"name": "entity.name.type.parameter.pivot-lang",
 					"match": "\\b[a-zA-Z0-9_]+\\b"
+				},
+				{
+					"begin": "(\\{)",
+					"end": "(\\})",
+					"patterns": [
+						{
+							"include": "statement"
+						}
+					]
 				}
 			]
 		}
