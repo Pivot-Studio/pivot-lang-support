@@ -13,7 +13,7 @@
 		"keywords": {
 			"patterns": [{
 				"name": "keyword.control.pivot-lang",
-				"match": "\\b(if|while|for|return)\\b"
+				"match": "\\b(if|while|for|return|struct|fn|let)\\b"
 			}]
 		},
 		"strings": {
