@@ -34,11 +34,10 @@ export function activate(context: ExtensionContext) {
 
 	// Options to control the language client
 	const clientOptions: LanguageClientOptions = {
-		// Register the server for plain text documents
-		documentSelector: [{ scheme: 'file', language: 'pivot-lang' }],
+		documentSelector: [{ scheme: 'file', language: 'pivot-lang' },{ scheme: 'file', language: 'toml' }],
 		synchronize: {
 			// Notify the server about file changes to '.clientrc files contained in the workspace
-			fileEvents: workspace.createFileSystemWatcher('**/.pi(v?)')
+			fileEvents: workspace.createFileSystemWatcher('**/{*.pi,Kagari.toml}')
 		},
 		outputChannelName: "pivot-lang language server",
 	};

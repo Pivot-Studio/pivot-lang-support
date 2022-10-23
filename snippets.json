@@ -11,9 +11,9 @@
     "A function": {
         "prefix": "fn",
         "body": [
-            "fn ${1:name}(${2:args}) void {",
+            "fn ${1:name}() void {",
             "\t$0",
-            "\treturn",
+            "\treturn;",
             "}"
         ],
         "description": "function"
