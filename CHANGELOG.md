@@ -4,6 +4,10 @@ All notable changes to the "pivot-lang-support" extension will be documented in 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.4]
+- more accurate keyword highlighting
+- add true|false to keywords
+
 ## [0.0.3]
 
 - add keyword const & use & else
