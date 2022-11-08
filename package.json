@@ -2,7 +2,7 @@
   "name": "pivot-lang-support",
   "displayName": "pivot-lang support",
   "description": "",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "publisher": "pivot-langAuthors",
   "engines": {
     "vscode": "^1.71.0"
@@ -59,7 +59,7 @@
 
   },
   "dependencies": {
-    "vscode-languageclient": "^7.0.0"
+    "vscode-languageclient": "8.0.0-next.14"
   },
   "scripts": {
     "vscode:prepublish": "npm run compile ",
