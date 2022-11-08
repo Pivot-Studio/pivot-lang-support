@@ -46,5 +46,23 @@
             "}"
         ],
         "description": "if else statement"
+    },
+    "impl block": {
+        "prefix": "impl",
+        "body": [
+            "impl ${1:st} {",
+            "\t$0",
+            "}"
+        ],
+        "description": "impl block"
+    },
+    "while loop": {
+        "prefix": "while",
+        "body": [
+            "while ${1:condition} {",
+            "\t$0",
+            "}"
+        ],
+        "description": "while loop"
     }
 }

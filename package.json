@@ -2,7 +2,7 @@
   "name": "pivot-lang-support",
   "displayName": "pivot-lang support",
   "description": "",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "publisher": "pivot-langAuthors",
   "engines": {
     "vscode": "^1.71.0"
@@ -43,6 +43,17 @@
         "language": "pivot-lang",
         "scopeName": "source.pivot-lang",
         "path": "./syntaxes/pivot-lang.tmLanguage.json"
+      }
+    ],
+    "breakpoints": [
+      {
+        "language": "pivot-lang"
+      }
+    ],
+    "commands":[
+      {
+        "command": "pivot-lang.restart_lsp",
+        "title": "Restart pivot-lang Language server"
       }
     ]
 

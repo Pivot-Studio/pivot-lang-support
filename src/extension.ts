@@ -8,6 +8,7 @@ import * as path from 'path';
 import { openStdin } from 'process';
 import { workspace, ExtensionContext } from 'vscode';
 import * as os from 'os';
+import * as vscode from "vscode";
 
 import {
 	LanguageClient,
@@ -17,6 +18,7 @@ import {
 } from 'vscode-languageclient/node';
 
 let client: LanguageClient;
+let di: vscode.Disposable;
 
 export function activate(context: ExtensionContext) {
 
@@ -49,9 +51,21 @@ export function activate(context: ExtensionContext) {
 		serverOptions,
 		clientOptions
 	);
+	vscode.commands.registerCommand("pivot-lang.restart_lsp", () => {
+		di.dispose();
+		client.outputChannel.dispose();
+		client.stop();
+		client = new LanguageClient(
+			'pivot-langlanguageServer',
+			'pivot-lang Language Server',
+			serverOptions,
+			clientOptions
+		);
+		client.start();
+	})
 
 	// Start the client. This will also launch the server
-	client.start();
+	di = client.start();
 }
 
 export function deactivate(): Thenable<void> | undefined {

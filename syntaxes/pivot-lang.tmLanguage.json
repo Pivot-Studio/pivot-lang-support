@@ -13,10 +13,10 @@
 		"keywords": {
 			"patterns": [{
 				"name": "keyword.control.pivot-lang",
-				"match": "\\b(if|while|for|return|else)\\b"
+				"match": "\\b(if|while|for|return|else|break|continue)\\b"
 			},{
 				"name": "keyword.pivot-lang",
-				"match": "\\b(struct|fn|let|use|const|true|false)\\b"
+				"match": "\\b(struct|fn|let|use|const|true|false|impl|self)\\b"
 			}]
 		},
 		"strings": {
