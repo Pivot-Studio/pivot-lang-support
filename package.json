@@ -2,7 +2,7 @@
   "name": "pivot-lang-support",
   "displayName": "pivot-lang support",
   "description": "",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "publisher": "pivot-langAuthors",
   "engines": {
     "vscode": "^1.71.0"
@@ -11,7 +11,8 @@
     "Programming Languages"
   ],
   "activationEvents": [
-    "onLanguage:pivot-lang"
+    "onLanguage:pivot-lang",
+    "onDebug"
   ],
   "icon": "logo.png",
   "main": "./out/extension",
@@ -50,16 +51,410 @@
         "language": "pivot-lang"
       }
     ],
-    "commands":[
+    "commands": [
       {
         "command": "pivot-lang.restart_lsp",
-        "title": "Restart pivot-lang Language server"
+        "title": "Restart pivot-lang Language server",
+        "category": "pivot-lang"
+      }
+    ],
+    "taskDefinitions": [
+      {
+          "type": "plProvider"
+      }
+    ],
+    "debuggers": [
+      {
+        "type": "pivot",
+        "label": "pivot-lang",
+        "languages": [
+          "pivot-lang"
+        ],
+        "configurationSnippets": [
+          {
+            "label": "pivot-lang: Launch",
+            "description": "Debug a pivot-lang program",
+            "body": {
+              "type": "pivot",
+              "request": "launch",
+              "name": "pivot-lang: Launch",
+              "program": "^\"\\${workspaceFolder}/Kagari.toml\""
+            }
+          }
+        ],
+        "configurationAttributes": {
+          "launch": {
+            "properties": {
+              "program": {
+                "description": "Path to the program to debug.",
+                "type": "string"
+              },
+              "cargo": {
+                "description": "Cargo invocation parameters.",
+                "type": "object",
+                "properties": {
+                  "args": {
+                    "description": "Cargo command line arguments.",
+                    "type": "array",
+                    "default": [
+                      "test",
+                      "--no-run"
+                    ]
+                  },
+                  "env": {
+                    "description": "Additional environment variables passed to cargo.",
+                    "type": "object",
+                    "patternProperties": {
+                      ".*": {
+                        "type": "string"
+                      }
+                    },
+                    "default": {}
+                  },
+                  "problemMatcher": {
+                    "description": "Problem matcher(s) to apply to cargo output.",
+                    "type": [
+                      "string",
+                      "array"
+                    ]
+                  },
+                  "filter": {
+                    "description": "Filter applied to compilation artifacts.",
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "kind": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "args"
+                ]
+              },
+              "args": {
+                "description": "Program arguments.",
+                "type": [
+                  "array",
+                  "string"
+                ],
+                "default": []
+              },
+              "cwd": {
+                "description": "Program working directory.",
+                "type": "string",
+                "default": "${workspaceFolder}"
+              },
+              "env": {
+                "description": "Additional environment variables.",
+                "type": "object",
+                "patternProperties": {
+                  ".*": {
+                    "type": "string"
+                  }
+                },
+                "default": {}
+              },
+              "stdio": {
+                "description": "Destination for stdio streams: null = send to debugger console or a terminal, \"<path>\" = attach to a file/tty/fifo.",
+                "type": [
+                  "null",
+                  "string",
+                  "array",
+                  "object"
+                ],
+                "default": null
+              },
+              "terminal": {
+                "description": "Terminal type to use.",
+                "type": "string",
+                "enum": [
+                  "integrated",
+                  "external",
+                  "console"
+                ],
+                "enumDescriptions": [
+                  "Use integrated terminal in VSCode.",
+                  "Use external terminal window.",
+                  "Use VScode Debug Console for stdout and stderr. Stdin will be unavailable."
+                ],
+                "default": "integrated"
+              },
+              "console": {
+                "description": "Terminal type to use. (This setting is a compatibility alias of 'terminal'.)",
+                "type": "string",
+                "enum": [
+                  "integratedTerminal",
+                  "externalTerminal",
+                  "internalConsole"
+                ],
+                "enumDescriptions": [
+                  "Use integrated terminal in VSCode.",
+                  "Use external terminal window.",
+                  "Use VScode Debug Console for stdout and stderr. Stdin will be unavailable."
+                ]
+              },
+              "stopOnEntry": {
+                "description": "Automatically stop debuggee after launch.",
+                "type": "boolean",
+                "default": true
+              },
+              "initCommands": {
+                "description": "Initialization commands executed upon debugger startup.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "preRunCommands": {
+                "description": "Commands executed just before the program is launched.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "postRunCommands": {
+                "description": "Commands executed just after the program has been launched.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "exitCommands": {
+                "description": "Commands executed at the end of debugging session.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "expressions": {
+                "description": "The default evaluator type used for expressions.",
+                "type": "string",
+                "enum": [
+                  "simple",
+                  "python",
+                  "native"
+                ]
+              },
+              "sourceMap": {
+                "description": "Source path remapping between the build machine and the local machine.  Each item is a pair of remote and local path prefixes.",
+                "type": "object",
+                "patternProperties": {
+                  ".*": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "default": {}
+              },
+              "relativePathBase": {
+                "description": "Base directory used for resolution of relative source paths.  Defaults to \"${workspaceFolder}\".",
+                "type": "string"
+              },
+              "sourceLanguages": {
+                "description": "A list of source languages to enable language-specific features for.",
+                "type": "array",
+                "default": []
+              },
+              "reverseDebugging": {
+                "description": "Enable reverse debugging (Requires reverse execution support in the debug server, see User's Manual for details).",
+                "type": "boolean",
+                "default": false
+              }
+            },
+            "oneOf": [
+              {
+                "required": [
+                  "program"
+                ]
+              },
+              {
+                "required": [
+                  "cargo"
+                ]
+              }
+            ]
+          },
+          "attach": {
+            "properties": {
+              "program": {
+                "description": "Path to the program to attach to.",
+                "type": "string"
+              },
+              "pid": {
+                "description": "Process id to attach to.",
+                "type": [
+                  "number",
+                  "string"
+                ],
+                "default": "${command:pickMyProcess}"
+              },
+              "stopOnEntry": {
+                "description": "Automatically stop debuggee after attach.",
+                "type": "boolean",
+                "default": true
+              },
+              "waitFor": {
+                "description": "Wait for the process to launch (MacOS only).",
+                "type": "boolean",
+                "default": true
+              },
+              "initCommands": {
+                "description": "Initialization commands executed upon debugger startup.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "preRunCommands": {
+                "description": "Commands executed just before the program is attached to.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "postRunCommands": {
+                "description": "Commands executed just after the program has been attached to.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "exitCommands": {
+                "description": "Commands executed at the end of debugging session.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "expressions": {
+                "description": "The default evaluator type used for expressions.",
+                "type": "string",
+                "enum": [
+                  "simple",
+                  "python",
+                  "native"
+                ]
+              },
+              "sourceMap": {
+                "description": "Source path remapping between the build machine and the local machine.  Each item is a pair of remote and local path prefixes.",
+                "type": "object",
+                "patternProperties": {
+                  ".*": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "default": {}
+              },
+              "sourceLanguages": {
+                "description": "A list of source languages to enable language-specific features for.",
+                "type": "array",
+                "default": []
+              },
+              "reverseDebugging": {
+                "description": "Enable reverse debugging (Requires reverse execution support in the debug server, see User's Manual for details).",
+                "type": "boolean",
+                "default": false
+              }
+            }
+          },
+          "custom": {
+            "properties": {
+              "initCommands": {
+                "description": "Initialization commands executed upon debugger startup.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "targetCreateCommands": {
+                "description": "Commands that create a debug target.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "processCreateCommands": {
+                "description": "Commands that create debuggee process.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "exitCommands": {
+                "description": "Commands executed at the end of debugging session.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "expressions": {
+                "description": "The default evaluator type used for expressions.",
+                "type": "string",
+                "enum": [
+                  "simple",
+                  "python",
+                  "native"
+                ]
+              },
+              "sourceMap": {
+                "description": "Source path remapping between the build machine and the local machine.  Each item is a pair of remote and local path prefixes.",
+                "type": "object",
+                "patternProperties": {
+                  ".*": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "default": {}
+              },
+              "relativePathBase": {
+                "description": "Base directory used for resolution of relative source paths.  Defaults to \"${workspaceFolder}\".",
+                "type": "string"
+              },
+              "sourceLanguages": {
+                "description": "A list of source languages to enable language-specific features for.",
+                "type": "array",
+                "default": []
+              },
+              "reverseDebugging": {
+                "description": "Enable reverse debugging (Requires reverse execution support in the debug server, see User's Manual for details).",
+                "type": "boolean",
+                "default": false
+              },
+              "cargo": {
+                "type": "object"
+              }
+            }
+          }
+        }
       }
     ]
-
   },
   "dependencies": {
-    "vscode-languageclient": "8.0.0-next.14"
+    "vscode-languageclient": "^8.0.2"
   },
   "scripts": {
     "vscode:prepublish": "npm run compile ",
@@ -75,7 +470,7 @@
     "eslint": "^8.10.0",
     "mocha": "^9.2.1",
     "typescript": "^4.6.2",
-    "@types/vscode": "^1.63.0",
+    "@types/vscode": "~1.66.0",
     "@vscode/test-electron": "^2.1.2"
   }
 }

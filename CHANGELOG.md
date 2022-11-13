@@ -5,6 +5,9 @@ All notable changes to the "pivot-lang-support" extension will be documented in 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 ## [0.0.6]
+- better debug support
+
+## [0.0.6]
 - update client package version to support inlay hints
 
 ## [0.0.5]

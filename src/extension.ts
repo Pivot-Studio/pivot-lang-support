@@ -6,7 +6,7 @@
 import { systemDefaultPlatform } from '@vscode/test-electron/out/util';
 import * as path from 'path';
 import { openStdin } from 'process';
-import { workspace, ExtensionContext } from 'vscode';
+import { workspace, ExtensionContext, WorkspaceFolder, DebugConfiguration, CancellationToken, ProviderResult } from 'vscode';
 import * as os from 'os';
 import * as vscode from "vscode";
 
@@ -18,10 +18,33 @@ import {
 } from 'vscode-languageclient/node';
 
 let client: LanguageClient;
-let di: vscode.Disposable;
+let di: Promise<void>;
+let type = "plProvider";
+let p = "";
 
 export function activate(context: ExtensionContext) {
-
+	// register a configuration provider for 'mock' debug type
+	const provider = new PLConfigurationProvider();
+	context.subscriptions.push(vscode.debug.registerDebugConfigurationProvider('pivot', provider));
+	vscode.tasks.registerTaskProvider(type, {
+        provideTasks(token?: vscode.CancellationToken) {
+			let fspath = p;
+			if (!p) {
+				fspath = vscode.window.activeTextEditor.document.uri.fsPath;
+			}else {
+				p = "";
+			}
+            var execution = new vscode.ShellExecution("plc "+ fspath);
+            var problemMatchers = ["$myProblemMatcher"];
+            return [
+                new vscode.Task({type: type}, vscode.TaskScope.Workspace,
+                    "pl Build", "pivot-lang", execution, problemMatchers)
+            ];
+        },
+        resolveTask(task: vscode.Task, token?: vscode.CancellationToken) {
+            return task;
+        }
+    });
 	// Find exe according to platform
 	var dir = __dirname;
 	dir = path.join(dir, os.platform());
@@ -52,7 +75,6 @@ export function activate(context: ExtensionContext) {
 		clientOptions
 	);
 	vscode.commands.registerCommand("pivot-lang.restart_lsp", () => {
-		di.dispose();
 		client.outputChannel.dispose();
 		client.stop();
 		client = new LanguageClient(
@@ -73,4 +95,46 @@ export function deactivate(): Thenable<void> | undefined {
 		return undefined;
 	}
 	return client.stop();
+}
+
+class PLConfigurationProvider implements vscode.DebugConfigurationProvider {
+
+	/**
+	 * Massage a debug configuration just before a debug session is being launched,
+	 * e.g. add all missing attributes to the debug configuration.
+	 */
+	resolveDebugConfiguration(folder: WorkspaceFolder | undefined, config: DebugConfiguration, token?: CancellationToken): ProviderResult<DebugConfiguration> {
+		let debugEngine = vscode.extensions.getExtension("vadimcn.vscode-lldb");
+
+		if (!debugEngine) {
+			vscode.window.showErrorMessage(
+				`Please install [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb)` +
+					` extension for debugging.`
+			);
+			return;
+		}
+		config.preLaunchTask ={
+			"task": "pl Build",
+			"type": type
+		};
+		if (!config.request) {
+			config.request = "launch";
+			config.name = "pl default Debug";
+		}
+		if (config.program) {
+			p = config.program;
+		}
+		config.program = "${workspaceFolder}/out";
+		
+
+
+		config.type = 'lldb';
+		let initCommands= [
+			"type format add --format d char",
+			"type format add --format d 'unsigned char'"
+		]
+		config.initCommands = initCommands.concat(config.initCommands??[]);
+
+		return config;
+	}
 }
