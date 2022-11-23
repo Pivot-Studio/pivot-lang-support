@@ -21,45 +21,46 @@ let client: LanguageClient;
 let di: Promise<void>;
 let type = "plProvider";
 let p = "";
+let level = vscode.workspace.getConfiguration("pivot-lang").get("logLevel") as number;
 
 export function activate(context: ExtensionContext) {
 	// register a configuration provider for 'mock' debug type
 	const provider = new PLConfigurationProvider();
 	context.subscriptions.push(vscode.debug.registerDebugConfigurationProvider('pivot', provider));
 	vscode.tasks.registerTaskProvider(type, {
-        provideTasks(token?: vscode.CancellationToken) {
+		provideTasks(token?: vscode.CancellationToken) {
 			let fspath = p;
 			if (!p) {
 				fspath = vscode.window.activeTextEditor.document.uri.fsPath;
-			}else {
+			} else {
 				p = "";
 			}
-            var execution = new vscode.ShellExecution("plc "+ fspath);
-            var problemMatchers = ["$myProblemMatcher"];
-            return [
-                new vscode.Task({type: type}, vscode.TaskScope.Workspace,
-                    "pl Build", "pivot-lang", execution, problemMatchers)
-            ];
-        },
-        resolveTask(task: vscode.Task, token?: vscode.CancellationToken) {
-            return task;
-        }
-    });
+			var execution = new vscode.ShellExecution("plc " + fspath);
+			var problemMatchers = ["$myProblemMatcher"];
+			return [
+				new vscode.Task({ type: type }, vscode.TaskScope.Workspace,
+					"pl Build", "pivot-lang", execution, problemMatchers)
+			];
+		},
+		resolveTask(task: vscode.Task, token?: vscode.CancellationToken) {
+			return task;
+		}
+	});
 	// Find exe according to platform
 	var dir = __dirname;
 	dir = path.join(dir, os.platform());
 	// If the extension is launched in debug mode then the debug server options are used
 	// Otherwise the run options are used
-	const serverOptions: ServerOptions = {
-		run: { command: "plc", args: ["lsp"] },
+	let serverOptions: ServerOptions = {
+		run: { command: "plc", args: ["-v", level.toString(), "lsp"] },
 		debug: {
-			command: "plc", args: ["lsp"]
+			command: "plc", args: ["-v", level.toString(), "lsp"]
 		},
 	};
 
 	// Options to control the language client
 	const clientOptions: LanguageClientOptions = {
-		documentSelector: [{ scheme: 'file', language: 'pivot-lang' },{ scheme: 'file', language: 'toml' }],
+		documentSelector: [{ scheme: 'file', language: 'pivot-lang' }, { scheme: 'file', language: 'toml' }],
 		synchronize: {
 			// Notify the server about file changes to '.clientrc files contained in the workspace
 			fileEvents: workspace.createFileSystemWatcher('**/{*.pi,Kagari.toml}')
@@ -75,15 +76,14 @@ export function activate(context: ExtensionContext) {
 		clientOptions
 	);
 	vscode.commands.registerCommand("pivot-lang.restart_lsp", () => {
-		client.outputChannel.dispose();
-		client.stop();
-		client = new LanguageClient(
-			'pivot-langlanguageServer',
-			'pivot-lang Language Server',
-			serverOptions,
-			clientOptions
-		);
-		client.start();
+		let level = vscode.workspace.getConfiguration("pivot-lang").get("logLevel") as number;
+		(serverOptions as any).run.args = ["-v", level.toString(), "lsp"];
+		(serverOptions as any).debug.args = ["-v", level.toString(), "lsp"];
+		client.restart();
+	})
+
+	vscode.workspace.onDidChangeConfiguration((e)=>{
+		e.affectsConfiguration("pivot-lang.logLevel") && vscode.commands.executeCommand("pivot-lang.restart_lsp");
 	})
 
 	// Start the client. This will also launch the server
@@ -109,11 +109,11 @@ class PLConfigurationProvider implements vscode.DebugConfigurationProvider {
 		if (!debugEngine) {
 			vscode.window.showErrorMessage(
 				`Please install [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb)` +
-					` extension for debugging.`
+				` extension for debugging.`
 			);
 			return;
 		}
-		config.preLaunchTask ={
+		config.preLaunchTask = {
 			"task": "pl Build",
 			"type": type
 		};
@@ -125,15 +125,15 @@ class PLConfigurationProvider implements vscode.DebugConfigurationProvider {
 			p = config.program;
 		}
 		config.program = "${workspaceFolder}/out";
-		
+
 
 
 		config.type = 'lldb';
-		let initCommands= [
+		let initCommands = [
 			"type format add --format d char",
 			"type format add --format d 'unsigned char'"
 		]
-		config.initCommands = initCommands.concat(config.initCommands??[]);
+		config.initCommands = initCommands.concat(config.initCommands ?? []);
 
 		return config;
 	}

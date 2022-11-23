@@ -2,8 +2,13 @@
   "name": "pivot-lang-support",
   "displayName": "pivot-lang support",
   "description": "",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "publisher": "pivot-langAuthors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Pivot-Studio/pivot-lang-support"
+  },
   "engines": {
     "vscode": "^1.71.0"
   },
@@ -17,6 +22,18 @@
   "icon": "logo.png",
   "main": "./out/extension",
   "contributes": {
+    "configuration": [
+      {
+        "title": "pivot lang",
+        "properties": {
+          "pivot-lang.logLevel": {
+            "type": "number",
+            "default": 1,
+            "markdownDescription": "pivot-lang lsp log level\n- 0: error\n- 1: error and warn\n- 2: error, warn and info\n- 3: error, warn, info and debug"
+          }
+        }
+      }
+    ],
     "snippets": [
       {
         "language": "pivot-lang",
@@ -60,7 +77,7 @@
     ],
     "taskDefinitions": [
       {
-          "type": "plProvider"
+        "type": "plProvider"
       }
     ],
     "debuggers": [
