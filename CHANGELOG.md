@@ -5,6 +5,10 @@ All notable changes to the "pivot-lang-support" extension will be documented in 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 
+## [0.0.9]
+- add highlight for `trait` keyword
+- add semantic highlight config for `for` keyword in impl
+
 ## [0.0.8]
 - add ability to config log level
 - add license

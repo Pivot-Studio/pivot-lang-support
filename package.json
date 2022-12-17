@@ -2,7 +2,7 @@
   "name": "pivot-lang-support",
   "displayName": "pivot-lang support",
   "description": "",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "publisher": "pivot-langAuthors",
   "license": "MIT",
   "repository": {
@@ -80,6 +80,13 @@
         "type": "plProvider"
       }
     ],
+    "configurationDefaults": {
+      "editor.semanticTokenColorCustomizations": {
+        "rules": {
+          "keyword": "#569CD6"
+        }
+      }
+    },
     "debuggers": [
       {
         "type": "pivot",

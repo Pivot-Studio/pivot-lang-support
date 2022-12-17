@@ -16,7 +16,7 @@
 				"match": "\\b(if|while|for|return|else|break|continue)\\b"
 			},{
 				"name": "keyword.pivot-lang",
-				"match": "\\b(struct|fn|let|use|const|true|false|impl|self)\\b"
+				"match": "\\b(struct|fn|let|use|const|true|false|impl|self|trait)\\b"
 			}]
 		},
 		"strings": {
