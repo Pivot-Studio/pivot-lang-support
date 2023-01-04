@@ -5,6 +5,9 @@ All notable changes to the "pivot-lang-support" extension will be documented in 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 
+## [0.0.10]
+- auto insert `///` in the start of new line when typing in a doc comment
+
 ## [0.0.9]
 - add highlight for `trait` keyword
 - add semantic highlight config for `for` keyword in impl

@@ -88,6 +88,27 @@ export function activate(context: ExtensionContext) {
 
 	// Start the client. This will also launch the server
 	di = client.start();
+	// 自动在///文档换行时插入新的///
+	vscode.workspace.onDidChangeTextDocument(ev=>{
+		if (ev.document.languageId !== "pivot-lang") {
+			return;
+		}
+		if (ev.contentChanges.length === 1&&ev.contentChanges[0].text === '\n'
+		&&ev.document.lineAt(ev.contentChanges[0].range.start.line).text.startsWith("///")) {
+			if (vscode.window.activeTextEditor?.document?.uri == ev.document.uri) {
+				vscode.window.activeTextEditor?.edit(eb=>{
+					let pos = ev.contentChanges[0].range.start;
+					pos = new vscode.Position(pos.line+1, 0);
+					eb.insert(pos, "/// ");
+				}).then(()=>{
+					vscode.window.activeTextEditor.selection = new vscode.Selection(
+						new vscode.Position(ev.contentChanges[0].range.start.line+1, 4),
+						new vscode.Position(ev.contentChanges[0].range.start.line+1, 4)
+					);
+				});
+			}
+		}
+	});
 }
 
 export function deactivate(): Thenable<void> | undefined {
