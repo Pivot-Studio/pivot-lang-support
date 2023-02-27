@@ -5,6 +5,9 @@ All notable changes to the "pivot-lang-support" extension will be documented in 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 
+## [0.0.11]
+- support highlight for `pub` keyword
+
 ## [0.0.10]
 - auto insert `///` in the start of new line when typing in a doc comment
 
