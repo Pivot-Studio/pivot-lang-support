@@ -2,7 +2,7 @@
   "name": "pivot-lang-support",
   "displayName": "pivot-lang support",
   "description": "",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "publisher": "pivot-langAuthors",
   "license": "MIT",
   "repository": {
@@ -16,6 +16,7 @@
     "Programming Languages"
   ],
   "activationEvents": [
+    "onLanguage:pivot-lang",
     "onDebug"
   ],
   "icon": "logo.png",
