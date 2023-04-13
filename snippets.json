@@ -64,5 +64,22 @@
             "}"
         ],
         "description": "while loop"
+    },
+    "union type":{
+        "prefix":"type",
+        "body":[
+            "type ${1:Name} = ${2:Type1} | ${3:Type2};"
+        ]
+    },
+    "macro def": {
+        "prefix": "macro",
+        "body": [
+            "macro ${1:name} {",
+            "\t($${1:a}:@${2:id}) => {",
+            "\t\t$0",
+            "\t};",
+            "}"
+        ],
+        "description": "macro def"
     }
 }

@@ -5,6 +5,10 @@ All notable changes to the "pivot-lang-support" extension will be documented in 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 
+## [0.0.13]
+- support highlight for `is`, `type` and `as` keyword
+- add union snippet && macro snippet
+
 ## [0.0.12]
 - support highlight for `where` and `macro` keyword
 
