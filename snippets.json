@@ -27,6 +27,15 @@
         ],
         "description": "struct"
     },
+    "A trait": {
+        "prefix": "trait",
+        "body": [
+            "trait ${1:name} {",
+            "\tfn ${1:f1}() void;",
+            "}$0"
+        ],
+        "description": "trait"
+    },
     "if statement": {
         "prefix": "if",
         "body": [
