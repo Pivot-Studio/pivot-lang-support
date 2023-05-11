@@ -4,6 +4,8 @@ All notable changes to the "pivot-lang-support" extension will be documented in 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.16]
+- better debug support for union types
 
 ## [0.0.15]
 - add trait snippet

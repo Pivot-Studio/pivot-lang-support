@@ -2,7 +2,7 @@
   "name": "pivot-lang-support",
   "displayName": "pivot-lang support",
   "description": "",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "publisher": "pivot-langAuthors",
   "license": "MIT",
   "repository": {
@@ -489,12 +489,12 @@
   "devDependencies": {
     "@types/mocha": "^9.1.0",
     "@types/node": "^14.17.0",
+    "@types/vscode": "~1.66.0",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.13.0",
+    "@vscode/test-electron": "^2.1.2",
     "eslint": "^8.10.0",
     "mocha": "^9.2.1",
-    "typescript": "^4.6.2",
-    "@types/vscode": "~1.66.0",
-    "@vscode/test-electron": "^2.1.2"
+    "typescript": "^4.6.2"
   }
 }

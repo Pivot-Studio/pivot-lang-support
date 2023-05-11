@@ -1,14 +1,11 @@
-/* --------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- * ------------------------------------------------------------------------------------------ */
-
 import { systemDefaultPlatform } from '@vscode/test-electron/out/util';
 import * as path from 'path';
 import { openStdin } from 'process';
 import { workspace, ExtensionContext, WorkspaceFolder, DebugConfiguration, CancellationToken, ProviderResult } from 'vscode';
 import * as os from 'os';
 import * as vscode from "vscode";
+
+const myExtDir = vscode.extensions.getExtension("pivot-langauthors.pivot-lang-support").extensionPath;
 
 import {
 	LanguageClient,
@@ -152,7 +149,8 @@ class PLConfigurationProvider implements vscode.DebugConfigurationProvider {
 		config.type = 'lldb';
 		let initCommands = [
 			"type format add --format d char",
-			"type format add --format d 'unsigned char'"
+			"type format add --format d 'unsigned char'",
+			`command script import "${myExtDir}/pl.py"`
 		]
 		config.initCommands = initCommands.concat(config.initCommands ?? []);
 
