@@ -79,28 +79,45 @@ export function activate(context: ExtensionContext) {
 		client.restart();
 	})
 
-	vscode.workspace.onDidChangeConfiguration((e)=>{
+	vscode.commands.registerCommand("pivot-lang.debug_current", () => {
+		vscode.debug.startDebugging(vscode.workspace.workspaceFolders?.[0], {
+			type: "pivot",
+			name: "pivot-lang Debug",
+			request: "launch",
+			program: vscode.window.activeTextEditor.document.uri.fsPath,
+		});
+	});
+
+	vscode.commands.registerCommand("pivot-lang.run_current", () => {
+		let fspath = vscode.window.activeTextEditor.document.uri.fsPath;
+		var execution = new vscode.ShellExecution("plc " + fspath + " -o out && ./out");
+		vscode.tasks.executeTask(new vscode.Task({ type: "plrun" }, vscode.TaskScope.Workspace, "build", "pivot-lang", execution)).then((value) => {
+
+		});
+	});
+
+	vscode.workspace.onDidChangeConfiguration((e) => {
 		e.affectsConfiguration("pivot-lang.logLevel") && vscode.commands.executeCommand("pivot-lang.restart_lsp");
 	})
 
 	// Start the client. This will also launch the server
 	di = client.start();
 	// 自动在///文档换行时插入新的///
-	vscode.workspace.onDidChangeTextDocument(ev=>{
+	vscode.workspace.onDidChangeTextDocument(ev => {
 		if (ev.document.languageId !== "pivot-lang") {
 			return;
 		}
-		if (ev.contentChanges.length === 1&&ev.contentChanges[0].text === '\n'
-		&&ev.document.lineAt(ev.contentChanges[0].range.start.line).text.startsWith("///")) {
+		if (ev.contentChanges.length === 1 && ev.contentChanges[0].text === '\n'
+			&& ev.document.lineAt(ev.contentChanges[0].range.start.line).text.startsWith("///")) {
 			if (vscode.window.activeTextEditor?.document?.uri == ev.document.uri) {
-				vscode.window.activeTextEditor?.edit(eb=>{
+				vscode.window.activeTextEditor?.edit(eb => {
 					let pos = ev.contentChanges[0].range.start;
-					pos = new vscode.Position(pos.line+1, 0);
+					pos = new vscode.Position(pos.line + 1, 0);
 					eb.insert(pos, "/// ");
-				}).then(()=>{
+				}).then(() => {
 					vscode.window.activeTextEditor.selection = new vscode.Selection(
-						new vscode.Position(ev.contentChanges[0].range.start.line+1, 4),
-						new vscode.Position(ev.contentChanges[0].range.start.line+1, 4)
+						new vscode.Position(ev.contentChanges[0].range.start.line + 1, 4),
+						new vscode.Position(ev.contentChanges[0].range.start.line + 1, 4)
 					);
 				});
 			}

@@ -2,7 +2,7 @@
   "name": "pivot-lang-support",
   "displayName": "pivot-lang support",
   "description": "",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "publisher": "pivot-langAuthors",
   "license": "MIT",
   "repository": {
@@ -72,6 +72,17 @@
       {
         "command": "pivot-lang.restart_lsp",
         "title": "Restart pivot-lang Language server",
+        "category": "pivot-lang"
+      },
+      {
+        "command": "pivot-lang.debug_current",
+        "title": "Debug current pivot-lang project",
+        "category": "pivot-lang"
+      }
+      ,
+      {
+        "command": "pivot-lang.run_current",
+        "title": "Run current pivot-lang project",
         "category": "pivot-lang"
       }
     ],
