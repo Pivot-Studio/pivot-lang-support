@@ -12,20 +12,20 @@
 	"repository": {
 		"keywords": {
 			"patterns": [{
-				"name": "keyword.control.pivot-lang",
-				"match": "\\b(if|while|for|return|else|break|continue)\\b"
+				"name": "keyword.control",
+				"match": "\\b(if|while|for|return|else|break|continue|yield)\\b"
 			},{
-				"name": "keyword.pivot-lang",
-				"match": "\\b(struct|fn|let|use|const|true|false|impl|self|trait|pub|where|macro|type|as|is|gen|yield)\\b"
+				"name": "keyword",
+				"match": "\\b(struct|fn|let|use|const|true|false|impl|self|trait|pub|where|macro|type|as|is|gen|var)\\b"
 			}]
 		},
 		"strings": {
-			"name": "string.quoted.double.pivot-lang",
+			"name": "string.quoted.double",
 			"begin": "\"",
 			"end": "\"",
 			"patterns": [
 				{
-					"name": "constant.character.escape.pivot-lang",
+					"name": "constant.character.escape",
 					"match": "\\\\."
 				}
 			]

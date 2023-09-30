@@ -4,6 +4,11 @@ All notable changes to the "pivot-lang-support" extension will be documented in 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.19]
+- add special stype for captured variables
+- add highlight for `var` keyword
+
+
 ## [0.0.18]
 - add run & debug commands
 

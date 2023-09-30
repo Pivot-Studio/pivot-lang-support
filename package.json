@@ -2,7 +2,7 @@
   "name": "pivot-lang-support",
   "displayName": "pivot-lang support",
   "description": "",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "publisher": "pivot-langAuthors",
   "license": "MIT",
   "repository": {
@@ -22,6 +22,16 @@
   "icon": "logo.png",
   "main": "./out/extension",
   "contributes": {
+    "semanticTokenScopes": [
+      {
+        "language": "pivot-lang",
+        "scopes": {
+          "*.captured": [
+            "markup.underline"
+          ]
+        }
+      }
+    ],
     "configuration": [
       {
         "title": "pivot lang",
@@ -78,8 +88,7 @@
         "command": "pivot-lang.debug_current",
         "title": "Debug current pivot-lang project",
         "category": "pivot-lang"
-      }
-      ,
+      },
       {
         "command": "pivot-lang.run_current",
         "title": "Run current pivot-lang project",
@@ -91,13 +100,6 @@
         "type": "plProvider"
       }
     ],
-    "configurationDefaults": {
-      "editor.semanticTokenColorCustomizations": {
-        "rules": {
-          "keyword": "#569CD6"
-        }
-      }
-    },
     "debuggers": [
       {
         "type": "pivot",
