@@ -4,6 +4,10 @@ All notable changes to the "pivot-lang-support" extension will be documented in 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.21]
+
+- update plugin to support new version of pivot-lang
+
 ## [0.0.20]
 
 - add debug support for array types

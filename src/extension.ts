@@ -32,7 +32,7 @@ export function activate(context: ExtensionContext) {
 			} else {
 				p = "";
 			}
-			var execution = new vscode.ShellExecution("plc " + fspath);
+			var execution = new vscode.ShellExecution("plc --debug " + fspath);
 			var problemMatchers = ["$myProblemMatcher"];
 			return [
 				new vscode.Task({ type: type }, vscode.TaskScope.Workspace,
@@ -90,7 +90,7 @@ export function activate(context: ExtensionContext) {
 
 	vscode.commands.registerCommand("pivot-lang.run_current", () => {
 		let fspath = vscode.window.activeTextEditor.document.uri.fsPath;
-		var execution = new vscode.ShellExecution("plc " + fspath + " -o out && ./out");
+		var execution = new vscode.ShellExecution("plc --debug" + fspath + " -o out && ./out");
 		vscode.tasks.executeTask(new vscode.Task({ type: "plrun" }, vscode.TaskScope.Workspace, "build", "pivot-lang", execution)).then((value) => {
 
 		});
