@@ -13,7 +13,7 @@
 		"keywords": {
 			"patterns": [{
 				"name": "keyword.control",
-				"match": "\\b(if|while|for|return|else|break|continue|yield)\\b"
+				"match": "\\b(if|while|for|return|else|break|continue|yield|match)\\b"
 			},{
 				"name": "keyword",
 				"match": "\\b(struct|fn|let|use|const|true|false|impl|self|trait|pub|where|macro|type|as|is|gen|var)\\b"

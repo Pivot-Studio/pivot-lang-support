@@ -90,5 +90,18 @@
             "}"
         ],
         "description": "macro def"
+    },
+    "match stmt": {
+        "prefix": "match",
+        "body": [
+            "match ${1:val} {",
+            "\t${2:pattern} => {",
+            "\t\t$0",
+            "\t}",
+            "\t_ => {",
+            "\t}",
+            "}"
+        ],
+        "description": "match stmt"
     }
 }
