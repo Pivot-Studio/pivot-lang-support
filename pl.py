@@ -99,10 +99,10 @@ def get_summary(valobj:lldb.SBValue,internal_dict,options):
 
 
 def __lldb_init_module(debugger, dict):
-    debugger.HandleCommand('type synthetic add --python-class pl.PLUnionProvider -x union[:<.>,\|]*')
-    # debugger.HandleCommand('type summary add  -F pl.get_summary -x union[:<.>,]*')
+    debugger.HandleCommand('type summary add  -F pl.get_summary -x union::[:<.>,\|]*')
     # debugger.HandleCommand('type summary add  --summary-string "HashTable" -x HashTable[:<.>,\|]*')
     # debugger.HandleCommand('type synthetic add --python-class pl.PLHashTableProvider -x HashTable[:<.>,\|]*')
     debugger.HandleCommand('type synthetic add --python-class pl.PLArrayProvider -x \[.+\]*')
+    debugger.HandleCommand('type synthetic add --python-class pl.PLUnionProvider -x union::[:<.>,\|]*')
 
 

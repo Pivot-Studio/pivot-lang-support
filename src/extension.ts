@@ -32,11 +32,11 @@ export function activate(context: ExtensionContext) {
 			} else {
 				p = "";
 			}
-			var execution = new vscode.ShellExecution("plc --debug " + fspath);
+			var execution = new vscode.ShellExecution("plc --debug -O0 " + fspath);
 			var problemMatchers = ["$myProblemMatcher"];
 			return [
 				new vscode.Task({ type: type }, vscode.TaskScope.Workspace,
-					"pl Build", "pivot-lang", execution, problemMatchers)
+					"pl Build debug", "pivot-lang", execution, problemMatchers)
 			];
 		},
 		resolveTask(task: vscode.Task, token?: vscode.CancellationToken) {
@@ -88,12 +88,10 @@ export function activate(context: ExtensionContext) {
 		});
 	});
 
-	vscode.commands.registerCommand("pivot-lang.run_current", () => {
+	vscode.commands.registerCommand("pivot-lang.run_current", async () => {
 		let fspath = vscode.window.activeTextEditor.document.uri.fsPath;
-		var execution = new vscode.ShellExecution("plc --debug" + fspath + " -o out && ./out");
-		vscode.tasks.executeTask(new vscode.Task({ type: "plrun" }, vscode.TaskScope.Workspace, "build", "pivot-lang", execution)).then((value) => {
-
-		});
+		var execution = new vscode.ShellExecution("plc " + fspath + " -o out\n./out");
+		vscode.tasks.executeTask(new vscode.Task({ type: "plrun" }, vscode.TaskScope.Workspace, "build", "pivot-lang", execution));
 	});
 
 	vscode.workspace.onDidChangeConfiguration((e) => {
@@ -149,7 +147,7 @@ class PLConfigurationProvider implements vscode.DebugConfigurationProvider {
 			return;
 		}
 		config.preLaunchTask = {
-			"task": "pl Build",
+			"task": "pl Build debug",
 			"type": type
 		};
 		if (!config.request) {
