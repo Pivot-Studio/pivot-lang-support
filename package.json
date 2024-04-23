@@ -2,7 +2,7 @@
   "name": "pivot-lang-support",
   "displayName": "pivot-lang support",
   "description": "",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "publisher": "pivot-langAuthors",
   "license": "MIT",
   "repository": {
@@ -82,6 +82,11 @@
       {
         "command": "pivot-lang.restart_lsp",
         "title": "Restart pivot-lang Language server",
+        "category": "pivot-lang"
+      },
+      {
+        "command": "pivot-lang.analyze_escape",
+        "title": "Analyse variable allocate location",
         "category": "pivot-lang"
       },
       {

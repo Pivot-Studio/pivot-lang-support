@@ -4,6 +4,21 @@ import { openStdin } from 'process';
 import { workspace, ExtensionContext, WorkspaceFolder, DebugConfiguration, CancellationToken, ProviderResult } from 'vscode';
 import * as os from 'os';
 import * as vscode from "vscode";
+import * as cp from "child_process";
+
+const execShell = (cmd: string) =>
+	new Promise<string>((resolve, reject) => {
+		cp.exec(cmd, {
+			cwd: vscode.workspace.workspaceFolders?.[0].uri.fsPath,
+		}, (err, out) => {
+			if (err) {
+				return reject(err);
+				//or,  reject(err);
+			}
+			return resolve(out);
+		});
+	});
+
 
 const myExtDir = vscode.extensions.getExtension("pivot-langauthors.pivot-lang-support").extensionPath;
 
@@ -86,6 +101,40 @@ export function activate(context: ExtensionContext) {
 			request: "launch",
 			program: vscode.window.activeTextEditor.document.uri.fsPath,
 		});
+	});
+	vscode.commands.registerCommand("pivot-lang.analyze_escape", async () => {
+		// start a status bar, spinning
+		let status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right);
+		status.text = "$(sync~spin) Analyzing escape";
+		status.show();
+		try {
+			let outfile = os.tmpdir() + "/pivot-lang-esacpe" + Math.random().toString(36).substring(7);
+			let out = await execShell("plc -v 0 " + vscode.window.activeTextEditor.document.uri.fsPath + ` -o ${outfile} --pstack`);
+			let lines = out.split('\n');
+			// for each location, highlight the code, and show a diagnostic
+			// every line is like: "variable moved to stack: `i` at /Users/bobli/src/pivot-lang/planglib/std/cols/arr.pi:98:17"
+			for (let line of lines) {
+				let match = line.match(/`(.*)` at (.+):(\d+):(\d+)/);
+				if (match) {
+					let [_, variable, file, line, col] = match;
+					let range = new vscode.Range(new vscode.Position(parseInt(line) - 1, parseInt(col) - 1), new vscode.Position(parseInt(line) - 1, parseInt(col) + variable.length - 1));
+					// hilight the code if the file is open
+					let active = vscode.window.visibleTextEditors.find(e => e.document.uri.fsPath == file);
+					if (active) {
+						active.setDecorations(vscode.window.createTextEditorDecorationType({
+							color: "green",
+							borderRadius: "2px"
+						}), [range]);
+					}
+
+				}
+			}
+		} catch (error) {
+			vscode.window.showErrorMessage("Error analyzing escape: " + error);
+		}
+		// stop the status bar
+		status.dispose();
+
 	});
 
 	vscode.commands.registerCommand("pivot-lang.run_current", async () => {

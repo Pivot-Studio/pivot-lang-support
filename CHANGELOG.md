@@ -4,6 +4,10 @@ All notable changes to the "pivot-lang-support" extension will be documented in 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.23]
+
+- add escape analysis command
+
 ## [0.0.22]
 
 - support match keyword
