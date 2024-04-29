@@ -4,6 +4,12 @@ All notable changes to the "pivot-lang-support" extension will be documented in 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.25]
+
+- even better textmate syntax highlighting
+  - add `as`\\`is`\\`macro`\\`array` highlight
+  - fixed string highlight conflict with other patterns
+
 ## [0.0.24]
 
 - improve textmate syntax highlighting

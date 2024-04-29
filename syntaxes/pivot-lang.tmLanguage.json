@@ -3,8 +3,20 @@
 	"name": "pivot-lang",
 	"patterns": [
 		{
+			"include": "#strings"
+		},
+		{
 			"name": "comment",
 			"match": "//.*$"
+		},
+		{
+			"include": "#expr.as"
+		},
+		{
+			"include": "#expr.is"
+		},
+		{
+			"include": "#array"
 		},
 		{
 			"include": "#struct"
@@ -19,9 +31,6 @@
 			"include": "#keywords"
 		},
 		{
-			"include": "#strings"
-		},
-		{
 			"include": "#char"
 		},
 		{
@@ -29,6 +38,9 @@
 		},
 		{
 			"include": "#function.call"
+		},
+		{
+			"include": "#macro.call"
 		},
 		{
 			"include": "#namespace.prefix"
@@ -118,16 +130,72 @@
 			}
 		},
 		"function.call": {
-			"match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*(<[^>]*>)?\\s*\\(([^\\)]*)\\)",
+			"match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*(<[^>]*>)?\\s*\\(",
 			"captures": {
 				"1": {
 					"name": "entity.name.function"
 				},
 				"2": {
 					"name": "entity.name.type"
+				}
+			}
+		},
+		"macro.call": {
+			"match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)!\\s*\\(",
+			"captures": {
+				"1": {
+					"name": "entity.name.function"
+				}
+			}
+		},
+		"expr.as": {
+			"match": "\\b(as)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+			"captures": {
+				"1": {
+					"name": "keyword"
 				},
-				"3": {
+				"2": {
+					"name": "entity.name.type"
+				}
+			}
+		},
+		"expr.is": {
+			"match": "\\b(is)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+			"captures": {
+				"1": {
+					"name": "keyword"
+				},
+				"2": {
+					"name": "entity.name.type"
+				}
+			}
+		},
+		"array": {
+			"match": "\\[([a-zA-Z_][a-zA-Z0-9_]*)\\*([^\\;]+)\\;",
+			"captures": {
+				"1": {
+					"name": "entity.name.type"
+				},
+				"2": {
 					"patterns": [
+						{
+							"include": "#expr.as"
+						},
+						{
+							"include": "#expr.is"
+						},
+						{
+							"include": "#struct"
+						},
+						{
+							"include": "#use"
+						},
+						{
+							"include": "#function"
+						},
+						{
+							"include": "#keywords"
+						},
 						{
 							"include": "#strings"
 						},
@@ -141,6 +209,9 @@
 							"include": "#function.call"
 						},
 						{
+							"include": "#macro.call"
+						},
+						{
 							"include": "#namespace.prefix"
 						},
 						{
@@ -149,6 +220,7 @@
 					]
 				}
 			}
+
 		},
 		"function": {
 			"match": "\\b(fn)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*(<[^>]*>)?\\s*\\(([^\\)]*)\\)\\s*([^\\{]*)",
