@@ -10,6 +10,12 @@
 			"match": "//.*$"
 		},
 		{
+			"include": "#use"
+		},
+		{
+			"include": "#sumtype"
+		},
+		{
 			"include": "#expr.as"
 		},
 		{
@@ -19,10 +25,10 @@
 			"include": "#array"
 		},
 		{
-			"include": "#struct"
+			"include": "#impl"
 		},
 		{
-			"include": "#use"
+			"include": "#struct"
 		},
 		{
 			"include": "#function"
@@ -87,13 +93,20 @@
 		"struct": {
 			"patterns": [
 				{
-					"match": "\\b(struct)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+					"match": "\\b(struct|trait)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*(<[^>]*>)?",
 					"captures": {
 						"1": {
 							"name": "keyword"
 						},
 						"2": {
 							"name": "entity.name.type"
+						},
+						"3": {
+							"patterns": [
+								{
+									"include": "#typename"
+								}
+							]
 						}
 					}
 				}
@@ -103,19 +116,53 @@
 			"name": "variable",
 			"match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
 		},
+		"typename": {
+			"name": "entity.name.type",
+			"match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
+		},
+		"ns": {
+			"name": "entity.name.namespace",
+			"match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
+		},
+		"sumtype": {
+			"match": "\\b(type)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*(<[^>]*>)?\\s*=\\s*(([a-zA-Z_][a-zA-Z0-9_]*\\s*(<[^>]*>)?\\|)*[a-zA-Z_][a-zA-Z0-9_]*\\s*(<[^>]*>)?)",
+			"captures": {
+				"1": {
+					"name": "keyword"
+				},
+				"2": {
+					"name": "entity.name.type"
+				},
+				"3": {
+					"patterns": [
+						{
+							"include": "#typename"
+						}
+					]
+				},
+				"4": {
+					"patterns": [
+						{
+							"include": "#typename"
+						}
+					]
+				}
+			}
+		},
 		"use": {
 			"patterns": [
 				{
-					"match": "\\b(use)\\s+([a-zA-Z_][a-zA-Z0-9_]*)(::[a-zA-Z_][a-zA-Z0-9_]*)*",
+					"match": "\\b(use)\\s+(([a-zA-Z_][a-zA-Z0-9_]*)(::[a-zA-Z_][a-zA-Z0-9_]*)*)",
 					"captures": {
 						"1": {
 							"name": "keyword"
 						},
 						"2": {
-							"name": "entity.name.namespace"
-						},
-						"3": {
-							"name": "entity.name.namespace"
+							"patterns": [
+								{
+									"include": "#ns"
+								}
+							]
 						}
 					}
 				}
@@ -136,7 +183,11 @@
 					"name": "entity.name.function"
 				},
 				"2": {
-					"name": "entity.name.type"
+					"patterns": [
+						{
+							"include": "#typename"
+						}
+					]
 				}
 			}
 		},
@@ -155,7 +206,11 @@
 					"name": "keyword"
 				},
 				"2": {
-					"name": "entity.name.type"
+					"patterns": [
+						{
+							"include": "#typename"
+						}
+					]
 				}
 			}
 		},
@@ -166,7 +221,11 @@
 					"name": "keyword"
 				},
 				"2": {
-					"name": "entity.name.type"
+					"patterns": [
+						{
+							"include": "#typename"
+						}
+					]
 				}
 			}
 		},
@@ -174,7 +233,11 @@
 			"match": "\\[([a-zA-Z_][a-zA-Z0-9_]*)\\*([^\\;]+)\\;",
 			"captures": {
 				"1": {
-					"name": "entity.name.type"
+					"patterns": [
+						{
+							"include": "#typename"
+						}
+					]
 				},
 				"2": {
 					"patterns": [
@@ -220,7 +283,6 @@
 					]
 				}
 			}
-
 		},
 		"function": {
 			"match": "\\b(fn)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*(<[^>]*>)?\\s*\\(([^\\)]*)\\)\\s*([^\\{]*)",
@@ -232,7 +294,11 @@
 					"name": "entity.name.function"
 				},
 				"3": {
-					"name": "entity.name.type"
+					"patterns": [
+						{
+							"include": "#typename"
+						}
+					]
 				},
 				"4": {
 					"patterns": [
@@ -245,7 +311,57 @@
 					]
 				},
 				"5": {
-					"name": "entity.name.type"
+					"patterns": [
+						{
+							"include": "#typename"
+						}
+					]
+				}
+			}
+		},
+		"impl": {
+			"match": "\\b(impl)\\s*(<[^>]+>)?\\s*([a-zA-Z_][a-zA-Z0-9_\\:]*)?\\s*(<[^>]+>)?\\s*(for)?\\s*([a-zA-Z_][a-zA-Z0-9_\\:]*)\\s*(<[^>]+>)?\\s*\\{",
+			"captures": {
+				"1": {
+					"name": "keyword"
+				},
+				"2": {
+					"patterns": [
+						{
+							"include": "#typename"
+						}
+					]
+				},
+				"3": {
+					"patterns": [
+						{
+							"include": "#typename"
+						}
+					]
+				},
+				"4": {
+					"patterns": [
+						{
+							"include": "#typename"
+						}
+					]
+				},
+				"5": {
+					"name": "keyword"
+				},
+				"6": {
+					"patterns": [
+						{
+							"include": "#typename"
+						}
+					]
+				},
+				"7": {
+					"patterns": [
+						{
+							"include": "#typename"
+						}
+					]
 				}
 			}
 		},
@@ -256,7 +372,11 @@
 					"name": "variable.parameter"
 				},
 				"2": {
-					"name": "entity.name.type"
+					"patterns": [
+						{
+							"include": "#typename"
+						}
+					]
 				}
 			}
 		},
