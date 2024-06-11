@@ -5,6 +5,7 @@ import { workspace, ExtensionContext, WorkspaceFolder, DebugConfiguration, Cance
 import * as os from 'os';
 import * as vscode from "vscode";
 import * as cp from "child_process";
+import * as nb from "./notebook";
 
 const execShell = (cmd: string) =>
 	new Promise<string>((resolve, reject) => {
@@ -36,6 +37,7 @@ let p = "";
 let level = vscode.workspace.getConfiguration("pivot-lang").get("logLevel") as number;
 
 export function activate(context: ExtensionContext) {
+	nb.activate(context);
 	// register a configuration provider for 'mock' debug type
 	const provider = new PLConfigurationProvider();
 	context.subscriptions.push(vscode.debug.registerDebugConfigurationProvider('pivot', provider));

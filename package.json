@@ -2,9 +2,21 @@
   "name": "pivot-lang-support",
   "displayName": "pivot-lang support",
   "description": "",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "publisher": "pivot-langAuthors",
   "license": "MIT",
+  "keywords": [
+    "Pivot Lang",
+    "pivot-lang",
+    "language",
+    "syntax",
+    "highlighting",
+    "snippets",
+    "lsp",
+    "debugger",
+    "notebook",
+    "notebookKernelPivotLang"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Pivot-Studio/pivot-lang-support"
@@ -22,6 +34,17 @@
   "icon": "logo.png",
   "main": "./out/extension",
   "contributes": {
+    "notebooks": [
+      {
+        "type": "pl-notebook",
+        "displayName": "Pivot Lang Notebook",
+        "selector": [
+          {
+            "filenamePattern": "*.iplnb"
+          }
+        ]
+      }
+    ],
     "semanticTokenScopes": [
       {
         "language": "pivot-lang",
