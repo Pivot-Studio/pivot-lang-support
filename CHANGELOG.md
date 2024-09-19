@@ -4,6 +4,11 @@ All notable changes to the "pivot-lang-support" extension will be documented in 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.28]
+
+- Add support for keyword `async` and `await`
+- Better tm grammar
+
 ## [0.0.27]
 
 - Add Pivot Lang jupyter notebook support

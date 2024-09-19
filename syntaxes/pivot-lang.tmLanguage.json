@@ -52,6 +52,9 @@
 			"include": "#namespace.prefix"
 		},
 		{
+			"include": "#typed-var"
+		},
+		{
 			"include": "#variable"
 		}
 	],
@@ -64,7 +67,7 @@
 				},
 				{
 					"name": "keyword",
-					"match": "\\b(struct|fn|let|use|const|true|false|impl|self|trait|pub|where|macro|type|as|is|gen|var)\\b"
+					"match": "\\b(struct|fn|let|use|const|true|false|impl|self|trait|pub|where|macro|type|as|is|gen|var|async|await)\\b"
 				}
 			]
 		},
@@ -119,6 +122,21 @@
 		"typename": {
 			"name": "entity.name.type",
 			"match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b"
+		},
+		"typed-var": {
+			"match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*:\\s*([^,]*)",
+			"captures": {
+				"1": {
+					"name": "variable"
+				},
+				"2": {
+					"patterns": [
+						{
+							"include": "#typename"
+						}
+					]
+				}
+			}
 		},
 		"ns": {
 			"name": "entity.name.namespace",
